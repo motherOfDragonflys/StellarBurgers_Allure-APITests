@@ -1,0 +1,24 @@
+name: Тесты мок-сервера
+
+on:
+  schedule:
+    - cron: "0 12 1 * *"      
+  workflow_dispatch:          # + кнопка «Run workflow» для ручного запуска
+# 0 — минута (ровно 0).
+# 12 — час (6:00 UTC = 9:00 МСК).
+# 1 — день месяца (только 1-е число).
+# * — месяц (любой, то есть каждый месяц).
+# * — день недели (любой — в этом случае не важен, потому что день месяца уже зафиксирован как «1»).
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    # Скачиваем код репозитория на раннер
+      - uses: actions/checkout@v4
+      # Ставим Java 11
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+      # Запускаем тесты через Maven
+      - run: mvn test
